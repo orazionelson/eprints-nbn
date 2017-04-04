@@ -1,0 +1,2 @@
+$c->{nbnuser} = '';
+$c->{nbnpassword} = '';

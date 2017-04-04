@@ -1,21 +1,21 @@
-package EPrints::NBN::Webservice;
+package EPrints::Plugin::NBN::Webservice;
 
 use HTTP::Request::Common qw(POST);
 use LWP::UserAgent;
 use JSON;
 use strict;
-# use Data::Dumper;
+#use Data::Dumper;
 
 sub mint {
 
-  my ($url,$metadata) = @_;
+  my ($url,$metadata,$nbnuser,$nbnpassword) = @_;
 
   my $ua = LWP::UserAgent->new;
   my $content = '{"action":"nbn_create", "url":"'.$url.'", "metadataURL":"'.$metadata.'"}';
   my $req = POST 'http://nbn.depositolegale.it/api/nbn_generator.pl',
   Content_Type => "application/json",
   Content      => $content;
-  $req->authorization_basic( $c->{nbnuser}, $c->{nbnpassword} );
+  $req->authorization_basic( $nbnuser, $nbnpassword );
 
   my $resp         = $ua->request($req);
   my $return_code  = $resp->code;

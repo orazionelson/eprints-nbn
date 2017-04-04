@@ -1,16 +1,26 @@
 EPRINTS NBN
 ===========
-
 Plugin per [EPrints](http://www.eprints.org) per l'assegnazione automatica di identificatori [urn:nbn](http://www.depositolegale.it/national-bibliography-number/)
 
+Nota
+-----
+Questa versione è un upgrade al plugin originale funzionante su e-prints 3.2 
+
+Con queste modifiche dovrebbe funzionare per e-prints 3.3
+
+&Egrave; testata su e-prints 3.3.4
 
 
 Installazione
 -------------
 
-copiare il contenuto della directory __EPrints__ in __{ARCHIVE}/cfg/plugins__ (installazione locale al singolo archivio)
+copiare la directory __EPrints__ in __{ARCHIVE}/cfg/plugins__ (installazione locale al singolo archivio)
 oppure in __/perl_lib__ (installazione globale, usabile da tutti gli archivi nella medesima installazione)
 
+
+copiare la directory __cfg.d__ in __{ARCHIVE}/cfg/__
+
+copiare la directory __lang__ in __{ARCHIVE}/cfg/__
 
 Credenziali
 -----------
@@ -89,7 +99,7 @@ __{ARCHIVE}/cfg/cfg.d/eprint_fields_automatic.pl__
       my $metadataurl = "http://".$c->{host}.
       "/cgi/oai2?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:".
       $c->{oai}->{v2}->{archive_id}.":".$eprint->id;
-      my ($ret, $status) = EPrints::NBN::Webservice::mint( $eprint->get_url(), $metadataurl );
+      my ($ret, $status) = EPrints::Plugin::NBN::Webservice::mint( $eprint->get_url(), $metadataurl, $c->{nbnuser},$c->{nbnpassword} );
       if ($ret eq '201') {
         $eprint->set_value("nbn", $status->{'nbn'});
       } else {
